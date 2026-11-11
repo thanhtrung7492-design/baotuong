@@ -385,6 +385,13 @@ body.ready .title__line:nth-child(2) > span { transition-delay: .1s; }
   transition: opacity .9s var(--ease), transform .9s var(--ease), filter .9s var(--ease);
 }
 .poem__body p.is-in { opacity: 1; transform: none; filter: none; }
+/* SỬA LỖI: quy tắc `.poem__body p .w` ở PHẦN 3 có độ ưu tiên cao hơn
+   `.is-in .w`, nên chữ thơ bị giữ mãi ở blur(3px) và lệch 0.42em.
+   Hai dòng dưới đây ép về trạng thái rõ, đúng thứ tự ưu tiên. */
+.poem__body p.is-in .w {
+  transform: none; filter: none; opacity: 1;
+  transition-delay: calc(var(--i, 0) * 30ms);
+}
 
 /* ── 44 điều ──────────────────────────────────────────────── */
 .grid44 {
@@ -668,6 +675,42 @@ body.ready .title .w { transform: none; opacity: 1; filter: none; }
   transform: translate3d(0, .42em, 0);
   filter: blur(3px);
   transition-delay: calc(var(--i, 0) * 46ms + 90ms);
+}
+/* trạng thái đã hiện phải thắng quy tắc ngay trên (xem ghi chú ở .poem__body) */
+.poem__body p.is-in .w {
+  transform: none; filter: none; opacity: 1;
+  transition-delay: calc(var(--i, 0) * 30ms);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PHẦN 4 — dòng chữ cân đối + chuyển động chạy liên tục
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Dòng tiêu đề chia đều hai bên thay vì để chữ cuối rơi lẻ loi.
+   Đoạn văn dùng `pretty` để không còn một từ treo ở dòng cuối. */
+.h2, .title__line, .poem__head .h2, .story h3 { text-wrap: balance; }
+.prose p, .story p, .qa p, .poem__body p, .colophon p { text-wrap: pretty; }
+.poem__body p { max-width: 38ch; }
+
+/* vệt sáng chạy chậm, lặp vô hạn — chỉ đổi background-position (rẻ, không gây reflow) */
+@keyframes sheen {
+  from { background-position: 0% 50%; }
+  to   { background-position: 200% 50%; }
+}
+.h2::after, .poem__rule {
+  background-size: 200% 100%;
+  animation: sheen 9s linear infinite;
+}
+
+/* số 44: dải màu trôi chậm liên tục */
+.title__num i {
+  background-size: 220% 220%;
+  animation: sheen 12s ease-in-out infinite alternate;
+}
+
+/* máy yếu / giảm chuyển động: tắt hết phần chạy liên tục */
+@media (prefers-reduced-motion: reduce) {
+  .h2::after, .poem__rule, .title__num i { animation: none; }
 }
 
   100% { background-position: 260% 50%; }
