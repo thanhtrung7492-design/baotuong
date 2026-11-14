@@ -599,7 +599,9 @@ body.ready .title__line:nth-child(2) > span { transition-delay: .1s; }
 
 /* ── chân trang ───────────────────────────────────────────── */
 .colophon {
-  padding: clamp(3rem, 8vw, 6rem) var(--pad) clamp(2.4rem, 5vw, 4rem);
+  /* đệm đáy phải lớn hơn nút nhạc nổi (đo 14/11/2026 khổ 390: nút 120×38 px ở y=793
+     đè mất 116×13 px của dòng "Mùa ơn thầy cô — 2026"; cũ 2,4rem = 38 px là không đủ) */
+  padding: clamp(3rem, 8vw, 6rem) var(--pad) clamp(4.8rem, 7vw, 5.4rem);
   background: linear-gradient(180deg, var(--cream), #f3e9d8);
   text-align: center;
 }
