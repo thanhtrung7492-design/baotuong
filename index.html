@@ -753,7 +753,19 @@ body.ready .title__line:nth-child(2) > span { transition-delay: .1s; }
   .prose, .prose--wide { max-width: 36rem; }   /* 576px ≈ 72 chữ/dòng */
 }
 
+/* THƠ TRÊN ĐIỆN THOẠI (người dùng chỉ ra 15/11): câu dài nhất "Trang thơ em viết từng
+   dòng ngày xưa." rộng 343 px ở cỡ 18,4 px, nhưng hộp chỉ còn 326 px ở khổ 360 và 286 px
+   ở khổ 320 ⇒ 3/12 câu (khổ 360) và 4/12 câu (khổ 320) gãy làm hai dòng, mắt đọc thơ bị
+   ngắt giữa câu. Đo: cỡ 17 px cho 317 px là vừa. Chọn `min(1,15rem, 4,6vw)` để tự co:
+   320 → 14,7 px · 360 → 16,6 · 390 → 17,9 · từ 400 trở lên giữ 18,4 như cũ. */
 @media (max-width: 620px) {
+  /* ĐẦU TRANG TRÊN ĐIỆN THOẠI (người dùng chỉ ra 15/11): logo, tên trường và địa chỉ
+     nằm chung một hàng flex nên chữ bị đẩy vào giữa, lệch hẳn mốc lề trái của trang
+     (đo: chữ bắt đầu x=76 px trong khi lề trang là 17 px) và chỉ còn 209 px bề ngang
+     nên địa chỉ gãy 3 dòng với chữ "Nẵng" nằm riêng.
+     ⇒ dưới 620 px: hai logo một hàng, tên + địa chỉ xuống hàng dưới, rộng hết lề. */
+  .mast__top { flex-wrap: wrap; }
+  .mast__id { flex: 1 0 100%; order: 3; margin-top: .3rem; }
   body { line-height: 1.66; }
   .mast { min-height: auto; padding-bottom: 2.6rem; }
   .mast__addr { font-size: .75rem; }
@@ -1233,6 +1245,15 @@ html:not(.js-motion) .gap3d { display: none; }
   .scroll__txt { white-space: nowrap; }
   /* "cuộn để đọc" bị bó trong 144 px nên gãy 2 dòng — giảm giãn chữ, giữ 12 px */
   .scroll { letter-spacing: .14em; }
+}
+
+/* ── THƠ: mỗi câu một dòng trên điện thoại ───────────────────────────────
+   Đo 15/11 (bản cũ): câu dài nhất rộng 343 px ở cỡ 18,4 px, hộp chỉ 326 px
+   (khổ 360) và 286 px (khổ 320) ⇒ 3/12 câu gãy đôi ở 360, 4/12 ở 320.
+   Đặt ở CUỐI tệp để thắng khối @media (max-width:480px) phía trên.
+   min(): 320 → 14,7 px · 360 → 16,6 · 390 → 17,9 · ≥400 giữ 18,4 như cũ. */
+@media (max-width: 620px) {
+  .poem__body p { font-size: min(1.15rem, 4.6vw); }
 }
 
 </style>
