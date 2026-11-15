@@ -1215,6 +1215,14 @@ body.ha-cap .gap3d { display: none; }
 html:not(.js-motion) .gap3d { display: none; }
 @media (prefers-reduced-motion: reduce) { .gap3d { display: none; } }
 
+/* điện thoại: bóng 8 lớp ở cỡ chữ 15 px làm nét chữ bị nhoè (máy soi ảnh 15/11:
+   "chữ có hiệu ứng bóng/nhoè nhiều lớp… một số nét trông mờ") — giảm còn 3 lớp */
+@media (max-width: 620px) {
+  .tribut--motion .t3d {
+    text-shadow: 1px 1px 0 #e9dcc6, 2px 2px 0 #dfceb1, 3px 3px 7px rgba(70, 45, 25, .16);
+  }
+}
+
 /* khổ hẹp: chữ 12 px cộng giãn .26em làm nhãn dài rơi xuống 2 dòng — giảm giãn */
 @media (max-width: 480px) {
   .label { letter-spacing: .16em; }
