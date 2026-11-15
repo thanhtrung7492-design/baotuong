@@ -688,18 +688,26 @@ body.ready .title__line:nth-child(2) > span { transition-delay: .1s; }
 .dots {
   position: fixed; right: clamp(.7rem, 1.6vw, 1.4rem); top: 50%;
   transform: translateY(-50%);
-  display: flex; flex-direction: column; gap: .62rem;
+  display: flex; flex-direction: column; gap: .1rem;
   z-index: 40;
 }
 .dots a {
-  position: relative; width: 9px; height: 9px; border-radius: 50%;
+  /* WCAG 2.5.8 (AA, 2.2): vùng bấm ≥24×24 px. Trước 15/11 vùng bấm chỉ 9×9 px —
+     đo bằng axe-core: 7 vi phạm `target-size` mức serious ở khổ 1440.
+     Chấm thị giác vẫn 9 px, vẽ bằng ::before, còn hộp bấm là 24×24 trong suốt. */
+  position: relative; width: 24px; height: 24px;
+  display: grid; place-items: center;
+  background: none;
+}
+.dots a::before {
+  content: ""; width: 9px; height: 9px; border-radius: 50%;
   background: rgba(33, 29, 25, .22);
   transition: background .35s, transform .45s var(--spring);
 }
-.dots a:hover { background: var(--son); transform: scale(1.5); }
-.dots a.on { background: var(--son); transform: scale(1.35); }
+.dots a:hover::before { background: var(--son); transform: scale(1.5); }
+.dots a.on::before { background: var(--son); transform: scale(1.35); }
 .dots a span {
-  position: absolute; right: 1.5rem; top: 50%; transform: translate(6px, -50%);
+  position: absolute; right: 1.9rem; top: 50%; transform: translate(6px, -50%);
   padding: .3rem .6rem; border-radius: 8px;
   background: var(--ink); color: var(--paper);
   font-size: .7rem; letter-spacing: .06em; white-space: nowrap;
