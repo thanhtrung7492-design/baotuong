@@ -648,8 +648,13 @@ body.ready .title__line:nth-child(2) > span { transition-delay: .1s; }
 }
 .colophon__grid {
   display: grid; gap: clamp(1.6rem, 4vw, 3rem);
-  grid-template-columns: repeat(3, 1fr);
-  max-width: 62rem; margin: 0 auto;
+  /* cột giữa rộng hơn: đo 15/11, ở khổ 1440 mỗi cột chỉ 299 px trong khi
+     "Thầy Nguyễn Thành Trung" ở cỡ 24 px rộng 318 px ⇒ tên thầy gãy làm 2 dòng.
+     Lưới rộng 74rem + cột giữa 1,14 phần ⇒ cột giữa 395 px ở 1440, 317 px ở 1024. */
+  /* cột giữa `auto` = rộng đúng bằng nội dung dài nhất trong cột ⇒ tên thầy
+     không bao giờ gãy dòng, hai cột hai bên tự co lại */
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  max-width: 74rem; margin: 0 auto;
   text-align: left;
 }
 .colophon__big {
@@ -1256,6 +1261,21 @@ html:not(.js-motion) .gap3d { display: none; }
   .poem__body p { font-size: min(1.15rem, 4.6vw); }
 }
 
+/* ── TÁC GIẢ Ở CUỐI TRANG ────────────────────────────────────────────────
+   Người dùng yêu cầu 15/11: trên điện thoại "Niên khóa 2025–2029" xuống dòng
+   riêng (trước đây nó tự gãy ở chỗ tuỳ độ rộng màn hình, khi thì dính dòng trên
+   khi thì rơi cả cụm kèm dấu "·" ở đầu dòng). */
+/* trên máy tính, cụm "· Niên khóa 2025–2029" phải xuống dòng NGUYÊN CỤM
+   (đo 15/11 ở khổ 1440: cột tác giả 340 px, cả dòng cần 393 px ⇒ chữ "2025–2029"
+   rơi riêng một dòng) */
+/* không để "2026–2027" hay "2025–2029" gãy giữa hai dòng như ảnh chụp 15/11 */
+.colophon__tail, .colophon__nk { white-space: nowrap; }
+
+@media (max-width: 620px) {
+  .colophon__sep { display: none; }
+  .colophon__nk { display: block; }
+}
+
 </style>
 <!-- Đánh dấu “có JS + có chuyển động” TRƯỚC khi vẽ: trạng thái ẩn của hiệu ứng
      chỉ áp dụng khi class này có mặt ⇒ tắt JS thì mọi chữ vẫn hiện (không còn 69 khối trắng). -->
@@ -1526,7 +1546,7 @@ html:not(.js-motion) .gap3d { display: none; }
       <div>
         <p class="label">Tác giả</p>
         <p class="colophon__big">Tập thể lớp 7/2</p>
-        <p class="colophon__small">40 học sinh · Năm học 2026–2027 · Niên khóa 2025–2029</p>
+        <p class="colophon__small"><span class="colophon__tail">40 học sinh · Năm học 2026–2027</span><span class="colophon__nk"><span class="colophon__sep"> · </span>Niên khóa 2025–2029</span></p>
       </div>
       <div>
         <p class="label">Giáo viên chủ nhiệm</p>
